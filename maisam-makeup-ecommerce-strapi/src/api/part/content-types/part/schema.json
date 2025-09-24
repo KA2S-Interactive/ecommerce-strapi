@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "parts",
+  "info": {
+    "singularName": "part",
+    "pluralName": "parts",
+    "displayName": "Part",
+    "description": "A collection for part"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "stores": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::store.store"
+    },
+    "available": {
+      "type": "boolean"
+    },
+    "details": {
+      "type": "json"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "categories": {
+      "type": "string"
+    },
+    "clicks": {
+      "type": "integer",
+      "default": 0
+    },
+    "visits": {
+      "type": "integer",
+      "default": 0
+    },
+    "shares": {
+      "type": "integer",
+      "default": 0
+    },
+    "publisher": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

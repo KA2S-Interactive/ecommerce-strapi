@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orderdetailss",
+  "info": {
+    "singularName": "orderdetails",
+    "pluralName": "orderdetailss",
+    "displayName": "Orderdetails",
+    "description": "A collection for orderdetails"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "total": {
+      "type": "decimal"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "store": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::store.store"
+    },
+    "address": {
+      "type": "string"
+    },
+    "addressType": {
+      "type": "string"
+    },
+    "cart": {
+      "type": "json"
+    },
+    "city": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "text"
+    },
+    "cost": {
+      "type": "decimal"
+    },
+    "paymentMethod": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "street": {
+      "type": "string"
+    },
+    "subtotal": {
+      "type": "biginteger"
+    },
+    "order_id": {
+      "type": "uid"
+    }
+  }
+}

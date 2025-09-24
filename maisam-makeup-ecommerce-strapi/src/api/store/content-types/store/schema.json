@@ -1,0 +1,85 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stores",
+  "info": {
+    "singularName": "store",
+    "pluralName": "stores",
+    "displayName": "Store",
+    "description": "A collection for store"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "details": {
+      "type": "richtext"
+    },
+    "hostname": {
+      "type": "string"
+    },
+    "visits": {
+      "type": "integer",
+      "default": 0
+    },
+    "clicks": {
+      "type": "integer",
+      "default": 0
+    },
+    "shares": {
+      "type": "integer",
+      "default": 0
+    },
+    "publisher": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "socialMedia": {
+      "type": "json"
+    },
+    "parts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::part.part"
+    },
+    "services": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::service.service"
+    },
+    "apiToken": {
+      "type": "string"
+    }
+  }
+}
