@@ -1,6 +1,102 @@
 const fs = require('fs');
 const path = require('path');
 
+// Function to create a component
+const createComponent = (componentName, category, attributes) => {
+  const componentsPath = path.join(__dirname, 'src', 'components', category);
+
+  // Create components directory if it doesn't exist
+  if (!fs.existsSync(componentsPath)) {
+    fs.mkdirSync(componentsPath, { recursive: true });
+  }
+
+  // Create the schema for the component
+  const schemaContent = {
+    collectionName: `components_${category}_${componentName.toLowerCase()}s`,
+    info: {
+      displayName: componentName,
+      icon: 'layout',
+      description: '',
+    },
+    options: {
+      draftAndPublish: false,
+    },
+    attributes: attributes,
+  };
+
+  fs.writeFileSync(
+    path.join(componentsPath, `${componentName.toLowerCase()}.json`),
+    JSON.stringify(schemaContent, null, 2)
+  );
+
+  console.log(`Component '${componentName}' created successfully in category '${category}'!`);
+};
+
+// Define components
+const commentAttributes = {
+  body: {
+    type: 'text',
+  },
+  date: {
+    type: 'datetime',
+  },
+  admin_user: {
+    type: 'relation',
+    relation: 'manyToOne',
+    target: 'admin::user',
+  },
+  likes: {
+    type: 'integer',
+  },
+};
+
+const vedioLinksAttributes = {
+  url: {
+    type: 'string',
+  },
+  description: {
+    type: 'text',
+  },
+  title: {
+    type: 'string',
+  },
+};
+
+const sliderAttributes = {
+  files: {
+    type: 'media',
+    multiple: true,
+    allowedTypes: ['images'],
+  },
+};
+
+const seoAttributes = {
+  metaTitle: {
+    type: 'string',
+  },
+  metaDescription: {
+    type: 'text',
+  },
+  shareImage: {
+    type: 'media',
+    multiple: false,
+    allowedTypes: ['images'],
+  },
+};
+
+const richTextAttributes = {
+  body: {
+    type: 'richtext',
+  },
+};
+
+// Create components
+createComponent('Comment', 'shared', commentAttributes);
+createComponent('VedioLinks', 'links', vedioLinksAttributes);
+createComponent('Slider', 'media', sliderAttributes);
+createComponent('Seo', 'shared', seoAttributes);
+createComponent('RichText', 'shared', richTextAttributes);
+
 // Function to create directories and files for the new content type
 const createContentType = (contentTypeName, attributes) => {
   const apiPath = path.join(__dirname, 'src', 'api', contentTypeName);
@@ -111,7 +207,7 @@ const articleAttributes = {
   },
   blocks: {
     type: 'dynamiczone',
-    components: ['media', 'quote', 'rich-text', 'slider'],
+    components: ['media.slider', 'shared.rich-text'],
   },
   content: {
     type: 'richtext',
@@ -124,7 +220,12 @@ const articleAttributes = {
   vedioLinks: {
     type: 'component',
     repeatable: true,
-    component: 'links.video-link',
+    component: 'links.vediolinks',
+  },
+  comments: {
+    type: 'component',
+    repeatable: true,
+    component: 'shared.comment',
   },
 };
 
@@ -204,6 +305,23 @@ const partsAttributes = {
   categories: {
     type: 'string',
   },
+  clicks: {
+    type: 'integer',
+    default: 0,
+  },
+  visits: {
+    type: 'integer',
+    default: 0,
+  },
+  shares: {
+    type: 'integer',
+    default: 0,
+  },
+  publisher: {
+    type: 'relation',
+    relation: 'manyToOne',
+    target: 'plugin::users-permissions.user',
+  },
 };
 
 // Define attributes for Product
@@ -241,6 +359,23 @@ const productAttributes = {
     type: 'relation',
     relation: 'manyToMany',
     target: 'api::services.services',
+  },
+  clicks: {
+    type: 'integer',
+    default: 0,
+  },
+  visits: {
+    type: 'integer',
+    default: 0,
+  },
+  shares: {
+    type: 'integer',
+    default: 0,
+  },
+  publisher: {
+    type: 'relation',
+    relation: 'manyToOne',
+    target: 'plugin::users-permissions.user',
   },
 };
 
@@ -280,9 +415,50 @@ const servicesAttributes = {
     relation: 'manyToMany',
     target: 'api::product.product',
   },
+  clicks: {
+    type: 'integer',
+    default: 0,
+  },
+  visits: {
+    type: 'integer',
+    default: 0,
+  },
+  shares: {
+    type: 'integer',
+    default: 0,
+  },
+  publisher: {
+    type: 'relation',
+    relation: 'manyToOne',
+    target: 'plugin::users-permissions.user',
+  },
 };
 
-// Define attributes for Store
+// Define attributes for OrderDetails
+const orderDetailsAttributes = {
+  order_id: {
+    type: 'string',
+  },
+  status: {
+    type: 'string',
+  },
+  total: {
+    type: 'decimal',
+  },
+  date: {
+    type: 'datetime',
+  },
+  store: {
+    type: 'relation',
+    relation: 'manyToOne',
+    target: 'api::store.store',
+  },
+  details: {
+    type: 'json',
+  },
+};
+
+// Update Store attributes
 const storeAttributes = {
   name: {
     type: 'string',
@@ -301,11 +477,20 @@ const storeAttributes = {
   },
   visits: {
     type: 'integer',
+    default: 0,
   },
-  orderdetails: {
+  clicks: {
+    type: 'integer',
+    default: 0,
+  },
+  shares: {
+    type: 'integer',
+    default: 0,
+  },
+  publisher: {
     type: 'relation',
-    relation: 'oneToMany',
-    target: 'api::orderdetails.orderdetails',
+    relation: 'manyToOne',
+    target: 'plugin::users-permissions.user',
   },
   tags: {
     type: 'string',
@@ -345,6 +530,49 @@ const storeAttributes = {
   },
 };
 
+// Define attributes for User
+const userAttributes = {
+  username: {
+    type: 'string',
+  },
+  email: {
+    type: 'email',
+  },
+  provider: {
+    type: 'string',
+  },
+  password: {
+    type: 'password',
+  },
+  resetPasswordToken: {
+    type: 'string',
+  },
+  confirmationToken: {
+    type: 'string',
+  },
+  confirmed: {
+    type: 'boolean',
+  },
+  blocked: {
+    type: 'boolean',
+  },
+  role: {
+    type: 'relation',
+    relation: 'manyToOne',
+    target: 'plugin::users-permissions.role',
+  },
+  interests: {
+    type: 'string',
+  },
+  last_online: {
+    type: 'datetime',
+  },
+  balance: {
+    type: 'decimal',
+    default: 0,
+  },
+};
+
 // Create all content types
 createContentType('article', articleAttributes);
 createContentType('author', authorAttributes);
@@ -352,4 +580,6 @@ createContentType('category', categoryAttributes);
 createContentType('parts', partsAttributes);
 createContentType('product', productAttributes);
 createContentType('services', servicesAttributes);
-createContentType('store', storeAttributes); 
+createContentType('store', storeAttributes);
+createContentType('orderdetails', orderDetailsAttributes);
+createContentType('user', userAttributes); 

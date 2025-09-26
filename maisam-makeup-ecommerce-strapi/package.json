@@ -12,22 +12,34 @@
     "strapi": "strapi"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@emailjs/nodejs": "^5.0.2",
     "@strapi/plugin-cloud": "5.1.0",
     "@strapi/plugin-users-permissions": "5.1.0",
     "@strapi/strapi": "5.1.0",
+    "archiver": "^7.0.1",
+    "axios": "^1.9.0",
     "better-sqlite3": "11.3.0",
+    "emailjs-com": "^3.2.0",
     "fs-extra": "^10.0.0",
+    "googleapis": "^148.0.0",
     "mime-types": "^2.1.27",
+    "nodemailer": "^6.10.1",
     "pg": "^8.13.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "strapi": "^3.6.11",
+    "strapi-admin": "^3.6.11",
+    "strapi-plugin-multi-select": "^2.1.1",
     "styled-components": "^6.0.0"
   },
   "devDependencies": {
+    "@types/eslint": "^9.6.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "esbuild": "^0.25.3",
     "typescript": "^5"
   },
   "engines": {

@@ -1,0 +1,77 @@
+{
+  "kind": "collectionType",
+  "collectionName": "job_offers",
+  "info": {
+    "singularName": "job-offer",
+    "pluralName": "job-offers",
+    "displayName": "job-offer",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "salary": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "experience": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "string"
+    },
+    "benefits": {
+      "type": "string"
+    },
+    "postedDate": {
+      "type": "date"
+    },
+    "deadline": {
+      "type": "date"
+    },
+    "isRemote": {
+      "type": "boolean"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category"
+    },
+    "image": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "contactPhone": {
+      "type": "string"
+    },
+    "contactEmail": {
+      "type": "string"
+    },
+    "applications": {
+      "type": "json"
+    }
+  }
+}

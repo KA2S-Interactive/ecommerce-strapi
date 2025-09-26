@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "events",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "attend_name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "car_plate_number": {
+      "type": "string"
+    },
+    "car_manufacturer": {
+      "type": "string"
+    },
+    "car_model": {
+      "type": "string"
+    },
+    "car_year": {
+      "type": "string"
+    },
+    "event_name": {
+      "type": "string"
+    }
+  }
+}

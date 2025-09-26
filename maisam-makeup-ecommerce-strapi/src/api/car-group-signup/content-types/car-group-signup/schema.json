@@ -1,0 +1,80 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car_group_signups",
+  "info": {
+    "singularName": "car-group-signup",
+    "pluralName": "car-group-signups",
+    "displayName": "car-group-signup",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "plateNumber": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "ownerName": {
+      "type": "string"
+    },
+    "carNickname": {
+      "type": "string"
+    },
+    "joinedDate": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "carBrand": {
+      "type": "string"
+    },
+    "carModel": {
+      "type": "string"
+    },
+    "carYear": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "text"
+    },
+    "profileImage": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "socialLinks": {
+      "type": "json"
+    },
+    "lastActive": {
+      "type": "datetime"
+    },
+    "membershipTier": {
+      "type": "enumeration",
+      "enum": [
+        "basic",
+        "premium",
+        "vip"
+      ]
+    },
+    "source": {
+      "type": "string"
+    },
+    "interestedInVip": {
+      "type": "string"
+    }
+  }
+}

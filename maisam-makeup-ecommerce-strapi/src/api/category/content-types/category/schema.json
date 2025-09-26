@@ -1,31 +1,54 @@
 {
   "kind": "collectionType",
-  "collectionName": "categories",
+  "collectionName": "categorys",
   "info": {
     "singularName": "category",
-    "pluralName": "categories",
+    "pluralName": "categorys",
     "displayName": "Category",
-    "description": "Organize your content into categories"
+    "description": "A collection for category"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
     "name": {
       "type": "string"
     },
     "slug": {
-      "type": "uid"
-    },
-    "articles": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::article.article",
-      "mappedBy": "category"
+      "type": "uid",
+      "targetField": "name"
     },
     "description": {
       "type": "text"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article"
+    },
+    "parts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::parts.parts",
+      "inversedBy": "categories"
+    },
+    "services": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::services.services",
+      "mappedBy": "categories"
+    },
+    "stories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::story.story",
+      "mappedBy": "categories"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "inversedBy": "category"
     }
   }
 }

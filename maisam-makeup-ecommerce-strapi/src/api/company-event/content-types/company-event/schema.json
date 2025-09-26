@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "company_events",
+  "info": {
+    "singularName": "company-event",
+    "pluralName": "company-events",
+    "displayName": "company_events"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "location": {
+      "type": "string"
+    },
+    "attendees": {
+      "type": "integer"
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "upcoming": {
+      "type": "boolean"
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category"
+    }
+  }
+}
