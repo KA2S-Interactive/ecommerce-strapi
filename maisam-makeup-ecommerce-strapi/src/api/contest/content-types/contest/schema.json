@@ -4,7 +4,8 @@
   "info": {
     "singularName": "contest",
     "pluralName": "contests",
-    "displayName": "contests"
+    "displayName": "contests",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -39,14 +40,28 @@
       "type": "string"
     },
     "image": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "rules": {
+      "type": "json"
+    },
+    "voting_categories": {
+      "type": "json"
+    },
+    "prizes": {
+      "type": "json"
     }
   }
 }

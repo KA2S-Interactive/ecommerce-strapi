@@ -524,6 +524,44 @@ export interface ApiAboutAbout extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiAdAd extends Struct.CollectionTypeSchema {
+  collectionName: 'ads';
+  info: {
+    singularName: 'ad';
+    pluralName: 'ads';
+    displayName: 'ads';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Schema.Attribute.Text;
+    description: Schema.Attribute.Text;
+    category: Schema.Attribute.String;
+    categoryColor: Schema.Attribute.String;
+    buttonText: Schema.Attribute.String;
+    buttonColor: Schema.Attribute.String;
+    alt: Schema.Attribute.String;
+    url: Schema.Attribute.String;
+    clicks: Schema.Attribute.Integer;
+    placement: Schema.Attribute.String;
+    active: Schema.Attribute.Boolean;
+    join_date: Schema.Attribute.Date;
+    days: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::ad.ad'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiAppointmentAppointment extends Struct.CollectionTypeSchema {
   collectionName: 'appointments';
   info: {
@@ -839,6 +877,7 @@ export interface ApiContestContest extends Struct.CollectionTypeSchema {
     singularName: 'contest';
     pluralName: 'contests';
     displayName: 'contests';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -857,6 +896,10 @@ export interface ApiContestContest extends Struct.CollectionTypeSchema {
       'images' | 'files' | 'videos' | 'audios',
       true
     >;
+    slug: Schema.Attribute.UID<'title'>;
+    rules: Schema.Attribute.JSON;
+    voting_categories: Schema.Attribute.JSON;
+    prizes: Schema.Attribute.JSON;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -1851,6 +1894,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::about.about': ApiAboutAbout;
+      'api::ad.ad': ApiAdAd;
       'api::appointment.appointment': ApiAppointmentAppointment;
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
