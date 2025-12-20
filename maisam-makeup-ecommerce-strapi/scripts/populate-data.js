@@ -358,6 +358,22 @@ const createRequest = (method, endpoint, data = null, locale = 'en') => {
   return axios(config);
 };
 
+// Helper function to extract localized value from tags array
+const extractLocalizedTags = (tags, locale) => {
+  if (!tags || !Array.isArray(tags)) return [];
+  
+  return tags
+    .map(tag => {
+      if (typeof tag === 'object' && tag[locale]) {
+        return tag[locale];
+      } else if (typeof tag === 'string') {
+        return tag;
+      }
+      return null;
+    })
+    .filter(tag => tag !== null);
+};
+
 // Helper function to create separate entries for each locale
 const createEntryWithI18n = async (endpoint, item, fields) => {
   const results = [];
@@ -367,9 +383,16 @@ const createEntryWithI18n = async (endpoint, item, fields) => {
     try {
       const localeData = {};
       fields.forEach(field => {
-        if (item[field] && typeof item[field] === 'object' && item[field][locale] !== undefined) {
+        // Handle tags specially - extract locale-specific tag values
+        if (field === 'tags') {
+          localeData[field] = extractLocalizedTags(item[field], locale);
+        }
+        // Handle localized fields (objects with locale keys)
+        else if (item[field] && typeof item[field] === 'object' && item[field][locale] !== undefined) {
           localeData[field] = item[field][locale];
-        } else if (item[field] !== undefined && typeof item[field] !== 'object') {
+        }
+        // Handle non-localized fields (primitives)
+        else if (item[field] !== undefined && typeof item[field] !== 'object') {
           // Keep non-localized fields the same for all locales
           localeData[field] = item[field];
         }
@@ -379,6 +402,9 @@ const createEntryWithI18n = async (endpoint, item, fields) => {
       const entryId = response.data.data.id;
       const entryName = localeData.name || localeData.title || localeData.slug || `ID: ${entryId}`;
       console.log(`✓ Created ${endpoint} entry (${locale}): ${entryName}`);
+      if (localeData.description) {
+        console.log(`  Description: ${localeData.description.substring(0, 50)}...`);
+      }
       results.push({ locale, id: entryId });
     } catch (error) {
       if (error.response) {
@@ -419,33 +445,41 @@ const createEntryWithI18n = async (endpoint, item, fields) => {
 // Populate categories
 const populateCategories = async () => {
   console.log('\n📁 Populating Categories...');
+  console.log(`   Creating ${categories.length} categories × 3 locales = ${categories.length * 3} entries`);
   for (const category of categories) {
     await createEntryWithI18n('/categories', category, ['name', 'slug', 'description', 'imageUrl']);
   }
+  console.log(`✅ Categories populated: ${categories.length * 3} entries created`);
 };
 
 // Populate meals
 const populateMeals = async () => {
   console.log('\n🍽️  Populating Meals...');
+  console.log(`   Creating ${meals.length} meals × 3 locales = ${meals.length * 3} entries`);
   for (const meal of meals) {
     await createEntryWithI18n('/meals', meal, ['name', 'description', 'categorySlug', 'price', 'imageUrl', 'calories', 'tags']);
   }
+  console.log(`✅ Meals populated: ${meals.length * 3} entries created`);
 };
 
 // Populate ingredients
 const populateIngredients = async () => {
   console.log('\n🥄 Populating Ingredients...');
+  console.log(`   Creating ${ingredients.length} ingredients × 3 locales = ${ingredients.length * 3} entries`);
   for (const ingredient of ingredients) {
     await createEntryWithI18n('/ingredients', ingredient, ['name', 'price', 'isDefault']);
   }
+  console.log(`✅ Ingredients populated: ${ingredients.length * 3} entries created`);
 };
 
 // Populate banners
 const populateBanners = async () => {
   console.log('\n🖼️  Populating Banners...');
+  console.log(`   Creating ${banners.length} banners × 3 locales = ${banners.length * 3} entries`);
   for (const banner of banners) {
     await createEntryWithI18n('/banners', banner, ['title', 'subtitle', 'imageUrl']);
   }
+  console.log(`✅ Banners populated: ${banners.length * 3} entries created`);
 };
 
 // Test if server is accessible
