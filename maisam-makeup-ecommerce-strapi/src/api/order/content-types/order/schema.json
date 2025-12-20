@@ -1,0 +1,100 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "Order",
+    "description": "Orders containing meals and ingredients"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": false
+    }
+  },
+  "attributes": {
+    "orderNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "customerName": {
+      "type": "string",
+      "required": true
+    },
+    "customerEmail": {
+      "type": "email",
+      "required": false
+    },
+    "customerPhone": {
+      "type": "string",
+      "required": false
+    },
+    "customerAddress": {
+      "type": "text",
+      "required": false
+    },
+    "items": {
+      "type": "json",
+      "required": true,
+      "description": "Array of order items. Each item should include: mealId, mealName, quantity, unitPrice, totalPrice, defaultIngredients (array of {id, name, price}), and selectedIngredients (array of {id, name, price})"
+    },
+    "subtotal": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "deliveryFee": {
+      "type": "decimal",
+      "required": false,
+      "default": 0,
+      "min": 0
+    },
+    "total": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "confirmed",
+        "preparing",
+        "ready",
+        "out_for_delivery",
+        "delivered",
+        "completed",
+        "cancelled"
+      ],
+      "default": "pending",
+      "required": true
+    },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": [
+        "cash",
+        "card",
+        "online"
+      ],
+      "default": "cash",
+      "required": true
+    },
+    "deliveryMethod": {
+      "type": "enumeration",
+      "enum": [
+        "pickup",
+        "delivery"
+      ],
+      "default": "pickup",
+      "required": true
+    },
+    "notes": {
+      "type": "text",
+      "required": false
+    }
+  }
+}

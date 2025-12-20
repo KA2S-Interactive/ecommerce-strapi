@@ -1,11 +1,11 @@
 {
   "kind": "collectionType",
-  "collectionName": "meals",
+  "collectionName": "drinks",
   "info": {
-    "singularName": "meal",
-    "pluralName": "meals",
-    "displayName": "Meal",
-    "description": "Meal items for the ecommerce store"
+    "singularName": "drink",
+    "pluralName": "drinks",
+    "displayName": "Drink",
+    "description": "Drink items for the ecommerce store"
   },
   "options": {
     "draftAndPublish": true
@@ -51,11 +51,6 @@
     },
     "tags": {
       "type": "json"
-    },
-    "ingredients": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::ingredient.ingredient"
     },
     "available": {
       "pluginOptions": {
