@@ -9,7 +9,9 @@
     "develop": "strapi develop",
     "populate": "node ./scripts/populate-data.js",
     "seed:example": "node ./scripts/seed.js",
+    "sync-schema": "node ./scripts/sync-schema.js",
     "start": "strapi start",
+    "start:safe": "npm run sync-schema && strapi start",
     "strapi": "strapi"
   },
   "dependencies": {
