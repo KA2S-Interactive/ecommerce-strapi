@@ -1,5 +1,11 @@
 export default ({ env }) => ({
-  auth: {
+
+	  vite: {
+    server: {
+      port: env.int('STRAPI_ADMIN_DEV_PORT', 5173),
+    },
+  },
+	auth: {
     secret: env('ADMIN_JWT_SECRET'),
   },
   apiToken: {
