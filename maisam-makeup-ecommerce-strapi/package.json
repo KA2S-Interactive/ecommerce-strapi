@@ -11,6 +11,7 @@
     "seed:example": "node ./scripts/seed.js",
     "sync-schema": "node ./scripts/sync-schema.js",
     "create-tables": "node ./scripts/create-tables.js",
+    "create-db": "node ./scripts/create-database.js",
     "init-db": "node ./scripts/init-database.js",
     "start": "strapi start",
     "start:safe": "npm run sync-schema && strapi start",
