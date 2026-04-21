@@ -1,0 +1,15 @@
+node_modules
+.tmp
+.cache
+build
+dist
+.git
+.gitignore
+*.md
+.env
+.env.*
+!.env.example
+Dockerfile
+.dockerignore
+npm-debug.log*
+yarn-error.log*
