@@ -1,0 +1,69 @@
+# Per-store stack: Strapi (prebaked image) + Postgres + n8n.
+# A provisioned droplet only needs to: drop a filled .env here and run
+#   docker compose up -d
+# Because images are pre-pulled into the base snapshot, first boot is fast
+# and deterministic (no apt / npm build at provision time).
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME:-strapi}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?set DATABASE_PASSWORD in .env}
+      POSTGRES_DB: ${DATABASE_NAME:-ecommerce_strapi}
+    volumes: ['pgdata:/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DATABASE_USERNAME:-strapi}']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  strapi:
+    # Prefer the prebuilt image; `build` is a fallback for local use.
+    image: ${STRAPI_IMAGE:-ghcr.io/khalildaibes/ecomstrapi:latest}
+    build:
+      context: ../maisam-makeup-ecommerce-strapi
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${DATABASE_NAME:-ecommerce_strapi}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:?}
+      DATABASE_SSL: ${DATABASE_SSL:-false}
+      APP_KEYS: ${APP_KEYS:?generate with: openssl rand -base64 32 (x4, comma-separated)}
+      API_TOKEN_SALT: ${API_TOKEN_SALT:?}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:?}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:?}
+      JWT_SECRET: ${JWT_SECRET:?}
+      HOST: 0.0.0.0
+      PORT: 1337
+    ports: ['1337:1337']
+
+  n8n:
+    image: n8nio/n8n:latest
+    restart: unless-stopped
+    environment:
+      N8N_HOST: ${N8N_HOST:-localhost}
+      N8N_PORT: 5678
+      N8N_PROTOCOL: ${N8N_PROTOCOL:-http}
+      WEBHOOK_URL: ${N8N_WEBHOOK_URL:-http://localhost:5678/}
+      GENERIC_TIMEZONE: ${TZ:-Asia/Jerusalem}
+      N8N_BASIC_AUTH_ACTIVE: 'true'
+      N8N_BASIC_AUTH_USER: ${N8N_USER:-admin}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_PASSWORD:?set a unique N8N_PASSWORD in .env}
+      # NOTE: set true behind HTTPS in production.
+      N8N_SECURE_COOKIE: ${N8N_SECURE_COOKIE:-false}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    volumes: ['n8ndata:/home/node/.n8n']
+    ports: ['5678:5678']
+
+volumes:
+  pgdata:
+  n8ndata:
