@@ -1,0 +1,81 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bookings",
+  "info": {
+    "singularName": "booking",
+    "pluralName": "bookings",
+    "displayName": "Booking",
+    "description": "A booking based on ready time; arrival time is computed automatically"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "customerName": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "readyAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "startAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "totalMin": {
+      "type": "integer",
+      "required": true
+    },
+    "totalPrice": {
+      "type": "decimal",
+      "default": 0
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "PENDING",
+        "CONFIRMED",
+        "CANCELLED",
+        "DONE",
+        "EXPIRED"
+      ],
+      "default": "CONFIRMED",
+      "required": true
+    },
+    "notes": {
+      "type": "text"
+    },
+    "look": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::look.look",
+      "inversedBy": "bookings"
+    },
+    "inspirationImage": {
+      "type": "text"
+    },
+    "partyId": {
+      "type": "string"
+    },
+    "serviceIds": {
+      "type": "json"
+    },
+    "otp": {
+      "type": "string"
+    },
+    "holdExpiresAt": {
+      "type": "datetime"
+    },
+    "items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking-item.booking-item",
+      "mappedBy": "booking"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "day_hours",
+  "info": {
+    "singularName": "day-hour",
+    "pluralName": "day-hours",
+    "displayName": "DayHours",
+    "description": "Working hours per day of week (0=Sunday ... 6=Saturday)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "dayOfWeek": {
+      "type": "integer",
+      "required": true,
+      "unique": true,
+      "min": 0,
+      "max": 6
+    },
+    "openMinutes": {
+      "type": "integer",
+      "required": true
+    },
+    "closeMinutes": {
+      "type": "integer",
+      "required": true
+    },
+    "isClosed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

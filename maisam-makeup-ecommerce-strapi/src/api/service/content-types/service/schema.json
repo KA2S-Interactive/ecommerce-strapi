@@ -8,9 +8,12 @@
     "description": "A collection for service"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "attributes": {
+    "name": {
+      "type": "string"
+    },
     "title": {
       "type": "string"
     },
@@ -63,6 +66,19 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "durationMin": {
+      "type": "integer"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "booking_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking-item.booking-item",
+      "mappedBy": "service"
     }
   }
 }

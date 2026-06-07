@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "looks",
+  "info": {
+    "singularName": "look",
+    "pluralName": "looks",
+    "displayName": "Look",
+    "description": "Ready makeup look/style used as a reference for a booking"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "imageUrl": {
+      "type": "text",
+      "required": true
+    },
+    "category": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
+      "mappedBy": "look"
+    }
+  }
+}

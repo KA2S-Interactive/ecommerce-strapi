@@ -1,0 +1,46 @@
+# Dependencies (reinstalled inside the image)
+node_modules
+
+# Build artifacts (rebuilt inside the image)
+dist
+build
+.cache
+.strapi
+.tmp
+
+# Local env & secrets — never bake into the image
+.env
+.env.*
+!.env.example
+
+# Version control
+.git
+.gitignore
+
+# Logs & misc
+*.log
+npm-debug.log*
+.DS_Store
+
+# Editor
+.idea
+.vscode
+
+# Local SQLite data
+*.sqlite
+*.sqlite3
+*.db
+
+# Strapi local files
+.strapi-updater.json
+.strapi-cloud.json
+license.txt
+exports
+
+# Uploaded media (mount as a volume instead)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Docker
+Dockerfile
+.dockerignore

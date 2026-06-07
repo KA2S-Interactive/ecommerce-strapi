@@ -1,0 +1,31 @@
+{
+  "kind": "singleType",
+  "collectionName": "salons",
+  "info": {
+    "singularName": "salon",
+    "pluralName": "salons",
+    "displayName": "Salon",
+    "description": "Salon settings (single record): name and working hours"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "default": "صالون الجمال"
+    },
+    "openMinutes": {
+      "type": "integer",
+      "default": 540
+    },
+    "closeMinutes": {
+      "type": "integer",
+      "default": 1320
+    },
+    "bufferMinutes": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

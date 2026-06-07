@@ -598,6 +598,88 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
+  collectionName: 'bookings';
+  info: {
+    singularName: 'booking';
+    pluralName: 'bookings';
+    displayName: 'Booking';
+    description: 'A booking based on ready time; arrival time is computed automatically';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    customerName: Schema.Attribute.String & Schema.Attribute.Required;
+    phone: Schema.Attribute.String & Schema.Attribute.Required;
+    readyAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    startAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    totalMin: Schema.Attribute.Integer & Schema.Attribute.Required;
+    totalPrice: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    status: Schema.Attribute.Enumeration<
+      ['PENDING', 'CONFIRMED', 'CANCELLED', 'DONE']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'CONFIRMED'>;
+    notes: Schema.Attribute.Text;
+    look: Schema.Attribute.Relation<'manyToOne', 'api::look.look'>;
+    inspirationImage: Schema.Attribute.Text;
+    partyId: Schema.Attribute.String;
+    otp: Schema.Attribute.String;
+    holdExpiresAt: Schema.Attribute.DateTime;
+    items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::booking-item.booking-item'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::booking.booking'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiBookingItemBookingItem extends Struct.CollectionTypeSchema {
+  collectionName: 'booking_items';
+  info: {
+    singularName: 'booking-item';
+    pluralName: 'booking-items';
+    displayName: 'BookingItem';
+    description: 'Selected services of a booking; stores a snapshot of duration/price at booking time';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    booking: Schema.Attribute.Relation<'manyToOne', 'api::booking.booking'>;
+    service: Schema.Attribute.Relation<'manyToOne', 'api::service.service'>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    durationMin: Schema.Attribute.Integer & Schema.Attribute.Required;
+    price: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::booking-item.booking-item'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categorys';
   info: {
@@ -614,6 +696,7 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     slug: Schema.Attribute.UID<'name'>;
     description: Schema.Attribute.Text;
     articles: Schema.Attribute.Relation<'manyToMany', 'api::article.article'>;
+    cslugs: Schema.Attribute.Relation<'manyToMany', 'api::product.product'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -667,6 +750,47 @@ export interface ApiCouponCoupon extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiDayHourDayHour extends Struct.CollectionTypeSchema {
+  collectionName: 'day_hours';
+  info: {
+    singularName: 'day-hour';
+    pluralName: 'day-hours';
+    displayName: 'DayHours';
+    description: 'Working hours per day of week (0=Sunday ... 6=Saturday)';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    dayOfWeek: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 6;
+        },
+        number
+      >;
+    openMinutes: Schema.Attribute.Integer & Schema.Attribute.Required;
+    closeMinutes: Schema.Attribute.Integer & Schema.Attribute.Required;
+    isClosed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::day-hour.day-hour'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -695,6 +819,38 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
       'oneToMany',
       'api::global.global'
     > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiLookLook extends Struct.CollectionTypeSchema {
+  collectionName: 'looks';
+  info: {
+    singularName: 'look';
+    pluralName: 'looks';
+    displayName: 'Look';
+    description: 'Ready makeup look/style used as a reference for a booking';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
+    imageUrl: Schema.Attribute.Text & Schema.Attribute.Required;
+    category: Schema.Attribute.String;
+    active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    sortOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::look.look'> &
       Schema.Attribute.Private;
   };
 }
@@ -866,6 +1022,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    category: Schema.Attribute.Relation<'manyToMany', 'api::category.category'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -878,6 +1035,36 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::product.product'
     >;
+  };
+}
+
+export interface ApiSalonSalon extends Struct.SingleTypeSchema {
+  collectionName: 'salons';
+  info: {
+    singularName: 'salon';
+    pluralName: 'salons';
+    displayName: 'Salon';
+    description: 'Salon settings (single record): name and working hours';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u0635\u0627\u0644\u0648\u0646 \u0627\u0644\u062C\u0645\u0627\u0644'>;
+    openMinutes: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<540>;
+    closeMinutes: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1320>;
+    bufferMinutes: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::salon.salon'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -908,6 +1095,12 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     publisher: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
+    >;
+    durationMin: Schema.Attribute.Integer;
+    active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    booking_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::booking-item.booking-item'
     >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -1396,12 +1589,17 @@ declare module '@strapi/strapi' {
       'api::about.about': ApiAboutAbout;
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
+      'api::booking.booking': ApiBookingBooking;
+      'api::booking-item.booking-item': ApiBookingItemBookingItem;
       'api::category.category': ApiCategoryCategory;
       'api::coupon.coupon': ApiCouponCoupon;
+      'api::day-hour.day-hour': ApiDayHourDayHour;
       'api::global.global': ApiGlobalGlobal;
+      'api::look.look': ApiLookLook;
       'api::orderdetails.orderdetails': ApiOrderdetailsOrderdetails;
       'api::part.part': ApiPartPart;
       'api::product.product': ApiProductProduct;
+      'api::salon.salon': ApiSalonSalon;
       'api::service.service': ApiServiceService;
       'api::store.store': ApiStoreStore;
       'api::user.user': ApiUserUser;

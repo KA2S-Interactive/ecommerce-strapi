@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "booking_items",
+  "info": {
+    "singularName": "booking-item",
+    "pluralName": "booking-items",
+    "displayName": "BookingItem",
+    "description": "Selected services of a booking; stores a snapshot of duration/price at booking time"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "booking": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::booking.booking",
+      "inversedBy": "items"
+    },
+    "service": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::service.service",
+      "inversedBy": "booking_items"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "durationMin": {
+      "type": "integer",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "default": 0
+    }
+  }
+}
