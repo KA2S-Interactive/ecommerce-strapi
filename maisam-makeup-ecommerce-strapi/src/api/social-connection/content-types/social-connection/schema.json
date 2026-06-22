@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "social_connections",
+  "info": {
+    "singularName": "social-connection",
+    "pluralName": "social-connections",
+    "displayName": "Social Connection",
+    "description": "Facebook/Meta OAuth credentials for connected accounts"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "provider": {
+      "type": "enumeration",
+      "enum": ["facebook", "instagram"],
+      "default": "facebook"
+    },
+    "metaUserId": {
+      "type": "string"
+    },
+    "metaName": {
+      "type": "string"
+    },
+    "metaEmail": {
+      "type": "email"
+    },
+    "userToken": {
+      "type": "text"
+    },
+    "tokenExpiresAt": {
+      "type": "datetime"
+    },
+    "pages": {
+      "type": "json"
+    },
+    "igUserId": {
+      "type": "string"
+    },
+    "igUserToken": {
+      "type": "text"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

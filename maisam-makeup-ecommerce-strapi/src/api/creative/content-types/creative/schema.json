@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "creatives",
+  "info": {
+    "singularName": "creative",
+    "pluralName": "creatives",
+    "displayName": "Creative",
+    "description": "A generated Cadence ad creative (copy + image/video + reasoning)."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "cId": { "type": "string" },
+    "pageId": { "type": "string" },
+    "week": { "type": "string" },
+    "status": { "type": "string", "default": "draft" },
+    "format": { "type": "string" },
+    "persona": { "type": "string" },
+    "headline": { "type": "string" },
+    "body": { "type": "text" },
+    "cta": { "type": "string" },
+    "imagePrompt": { "type": "text" },
+    "imageUrl": { "type": "string" },
+    "videoUrl": { "type": "string" },
+    "reasoning": { "type": "json" },
+    "owner": { "type": "string" }
+  }
+}

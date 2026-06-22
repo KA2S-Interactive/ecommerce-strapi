@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "runway_workflows",
+  "info": {
+    "singularName": "runway-workflow",
+    "pluralName": "runway-workflows",
+    "displayName": "Runway Workflow",
+    "description": "A customer's purchased Runway Workflow, saved per Page (id, version, key, node template)."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "wfId": { "type": "string" },
+    "pageId": { "type": "string" },
+    "name": { "type": "string" },
+    "workflowId": { "type": "string" },
+    "version": { "type": "string", "default": "2024-11-06" },
+    "apiKey": { "type": "string", "private": true },
+    "baseUrl": { "type": "string" },
+    "nodeOutputs": { "type": "text" },
+    "imageNode": { "type": "string" },
+    "promptNode": { "type": "string" },
+    "owner": { "type": "string" }
+  }
+}

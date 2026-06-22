@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "published_posts",
+  "info": {
+    "singularName": "published-post",
+    "pluralName": "published-posts",
+    "displayName": "Published Post",
+    "description": "Log of posts published to Facebook or Instagram"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "provider": {
+      "type": "enumeration",
+      "enum": ["facebook", "instagram"]
+    },
+    "targetId": {
+      "type": "string"
+    },
+    "externalPostId": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "text"
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "scheduledAt": {
+      "type": "datetime"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["published", "scheduled", "failed"]
+    },
+    "draftId": {
+      "type": "string"
+    },
+    "plan_occurrence": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::plan-occurrence.plan-occurrence"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "raw": {
+      "type": "json"
+    }
+  }
+}

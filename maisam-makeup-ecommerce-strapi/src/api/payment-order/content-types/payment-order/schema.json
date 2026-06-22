@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_orders",
+  "info": {
+    "singularName": "payment-order",
+    "pluralName": "payment-orders",
+    "displayName": "Payment Order",
+    "description": "Hyp (MAX) payment records"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "orderId": {
+      "type": "string"
+    },
+    "planId": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "decimal"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "billing": {
+      "type": "string"
+    },
+    "hypId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "raw": {
+      "type": "json"
+    }
+  }
+}

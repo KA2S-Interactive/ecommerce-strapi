@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "plan_items",
+  "info": {
+    "singularName": "plan-item",
+    "pluralName": "plan-items",
+    "displayName": "Plan Item",
+    "description": "A single item within a Cadence weekly content plan."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "itemId": { "type": "string" },
+    "pageId": { "type": "string" },
+    "title": { "type": "string" },
+    "persona": { "type": "string" },
+    "format": { "type": "string" },
+    "hypothesis": { "type": "text" },
+    "offer": { "type": "string" },
+    "content_plan": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::content-plan.content-plan",
+      "inversedBy": "plan_items"
+    },
+    "owner": { "type": "string" }
+  }
+}

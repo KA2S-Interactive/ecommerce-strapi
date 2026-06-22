@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "post_settings",
+  "info": {
+    "singularName": "post-setting",
+    "pluralName": "post-settings",
+    "displayName": "Post Setting",
+    "description": "Per-user default tags and posting agents"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "defaultTags": {
+      "type": "string"
+    },
+    "igAgent": {
+      "type": "text"
+    },
+    "fbAgent": {
+      "type": "text"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

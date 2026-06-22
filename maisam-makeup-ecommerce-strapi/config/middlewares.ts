@@ -5,7 +5,18 @@ export default [
   'strapi::cors',
   'strapi::poweredBy',
   'strapi::query',
-  'strapi::body',
+  {
+    name: 'strapi::body',
+    config: {
+      // Limits for the parsed body. Bump well above your largest image.
+      formLimit: '50mb', // multipart form data
+      jsonLimit: '50mb',
+      textLimit: '50mb',
+      formidable: {
+        maxFileSize: 50 * 1024 * 1024, // 50 MB per uploaded file
+      },
+    },
+  },
   'strapi::session',
   'strapi::favicon',
   'strapi::public',

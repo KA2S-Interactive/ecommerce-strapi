@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "autopilot_plans",
+  "info": {
+    "singularName": "autopilot-plan",
+    "pluralName": "autopilot-plans",
+    "displayName": "Auto-Pilot Plan",
+    "description": "Recurring posting plans for social auto-pilot"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "status": {
+      "type": "enumeration",
+      "enum": ["active", "paused", "completed"],
+      "default": "active"
+    },
+    "postsPerDay": {
+      "type": "integer"
+    },
+    "timeMode": {
+      "type": "enumeration",
+      "enum": ["specific", "autosplit"]
+    },
+    "workingHoursStart": {
+      "type": "string"
+    },
+    "workingHoursEnd": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "durationDays": {
+      "type": "integer"
+    },
+    "destinations": {
+      "type": "json"
+    },
+    "sources": {
+      "type": "json"
+    },
+    "slots": {
+      "type": "json"
+    },
+    "pageId": {
+      "type": "string"
+    },
+    "social_connection": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::social-connection.social-connection"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

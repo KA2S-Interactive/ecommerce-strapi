@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "plan_occurrences",
+  "info": {
+    "singularName": "plan-occurrence",
+    "pluralName": "plan-occurrences",
+    "displayName": "Plan Occurrence",
+    "description": "Durable per-post queue for the auto-pilot cron runner"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "scheduledAt": {
+      "type": "datetime"
+    },
+    "slotIndex": {
+      "type": "integer"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "processing", "posted", "failed", "skipped"],
+      "default": "pending"
+    },
+    "attempts": {
+      "type": "integer",
+      "default": 0
+    },
+    "result": {
+      "type": "json"
+    },
+    "autopilot_plan": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::autopilot-plan.autopilot-plan"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

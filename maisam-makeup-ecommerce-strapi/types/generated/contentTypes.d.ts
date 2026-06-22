@@ -479,6 +479,7 @@ export interface PluginUsersPermissionsUser
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    details: Schema.Attribute.JSON;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -520,6 +521,94 @@ export interface ApiAboutAbout extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::about.about'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAccountSettingAccountSetting
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'account_settings';
+  info: {
+    singularName: 'account-setting';
+    pluralName: 'account-settings';
+    displayName: 'Account Setting';
+    description: 'Per-user account-level automation preferences (ad account, WhatsApp, language, credits).';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    ukey: Schema.Attribute.String & Schema.Attribute.Unique;
+    adAccountId: Schema.Attribute.String;
+    phoneNumberId: Schema.Attribute.String;
+    whatsappToken: Schema.Attribute.String & Schema.Attribute.Private;
+    language: Schema.Attribute.String & Schema.Attribute.DefaultTo<'English'>;
+    credits: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::account-setting.account-setting'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAdCampaignAdCampaign extends Struct.CollectionTypeSchema {
+  collectionName: 'ad_campaigns';
+  info: {
+    singularName: 'ad-campaign';
+    pluralName: 'ad-campaigns';
+    displayName: 'Ad Campaign';
+    description: 'Log of paid promotions created for published posts';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    adAccountId: Schema.Attribute.String;
+    campaignId: Schema.Attribute.String;
+    adsetId: Schema.Attribute.String;
+    adId: Schema.Attribute.String;
+    objective: Schema.Attribute.String;
+    optimizationGoal: Schema.Attribute.String;
+    dailyBudget: Schema.Attribute.Decimal;
+    durationDays: Schema.Attribute.Integer;
+    audience: Schema.Attribute.JSON;
+    age: Schema.Attribute.JSON;
+    status: Schema.Attribute.Enumeration<['creating', 'active', 'failed']> &
+      Schema.Attribute.DefaultTo<'creating'>;
+    published_post: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::published-post.published-post'
+    >;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    raw: Schema.Attribute.JSON;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ad-campaign.ad-campaign'
+    > &
       Schema.Attribute.Private;
   };
 }
@@ -598,6 +687,102 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAutopilotPlanAutopilotPlan
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'autopilot_plans';
+  info: {
+    singularName: 'autopilot-plan';
+    pluralName: 'autopilot-plans';
+    displayName: 'Auto-Pilot Plan';
+    description: 'Recurring posting plans for social auto-pilot';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    status: Schema.Attribute.Enumeration<['active', 'paused', 'completed']> &
+      Schema.Attribute.DefaultTo<'active'>;
+    postsPerDay: Schema.Attribute.Integer;
+    timeMode: Schema.Attribute.Enumeration<['specific', 'autosplit']>;
+    workingHoursStart: Schema.Attribute.String;
+    workingHoursEnd: Schema.Attribute.String;
+    startDate: Schema.Attribute.Date;
+    durationDays: Schema.Attribute.Integer;
+    destinations: Schema.Attribute.JSON;
+    sources: Schema.Attribute.JSON;
+    slots: Schema.Attribute.JSON;
+    pageId: Schema.Attribute.String;
+    social_connection: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::social-connection.social-connection'
+    >;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::autopilot-plan.autopilot-plan'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiBrandProfileBrandProfile
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'brand_profiles';
+  info: {
+    singularName: 'brand-profile';
+    pluralName: 'brand-profiles';
+    displayName: 'Brand Profile';
+    description: 'Per-Page brand identity used to engineer on-brand Runway/image prompts.';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    wkey: Schema.Attribute.String & Schema.Attribute.Unique;
+    pageId: Schema.Attribute.String;
+    pageName: Schema.Attribute.String;
+    concept: Schema.Attribute.Text;
+    summary: Schema.Attribute.Text;
+    voice: Schema.Attribute.String;
+    logoUrl: Schema.Attribute.String;
+    colors: Schema.Attribute.String;
+    colorSpace: Schema.Attribute.String & Schema.Attribute.DefaultTo<'sRGB'>;
+    imageStyle: Schema.Attribute.String;
+    useBrandColors: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    addLogo: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    language: Schema.Attribute.String & Schema.Attribute.DefaultTo<'English'>;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::brand-profile.brand-profile'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categorys';
   info: {
@@ -625,6 +810,47 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::category.category'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiContentPlanContentPlan extends Struct.CollectionTypeSchema {
+  collectionName: 'content_plans';
+  info: {
+    singularName: 'content-plan';
+    pluralName: 'content-plans';
+    displayName: 'Content Plan';
+    description: 'Per-Page weekly Cadence plan (summary, winning patterns) with its plan items.';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    wkey: Schema.Attribute.String;
+    pageId: Schema.Attribute.String;
+    week: Schema.Attribute.String;
+    summary: Schema.Attribute.Text;
+    winningPatterns: Schema.Attribute.JSON;
+    plan_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::plan-item.plan-item'
+    >;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::content-plan.content-plan'
     > &
       Schema.Attribute.Private;
   };
@@ -667,6 +893,51 @@ export interface ApiCouponCoupon extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCreativeCreative extends Struct.CollectionTypeSchema {
+  collectionName: 'creatives';
+  info: {
+    singularName: 'creative';
+    pluralName: 'creatives';
+    displayName: 'Creative';
+    description: 'A generated ad creative (copy, prompts, media) tied to a Page and week.';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    cId: Schema.Attribute.String;
+    pageId: Schema.Attribute.String;
+    week: Schema.Attribute.String;
+    status: Schema.Attribute.String;
+    format: Schema.Attribute.String;
+    persona: Schema.Attribute.String;
+    headline: Schema.Attribute.String;
+    body: Schema.Attribute.Text;
+    cta: Schema.Attribute.String;
+    imagePrompt: Schema.Attribute.Text;
+    imageUrl: Schema.Attribute.String;
+    videoUrl: Schema.Attribute.String;
+    reasoning: Schema.Attribute.JSON;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::creative.creative'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -694,6 +965,42 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::global.global'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGrowWorkspaceGrowWorkspace
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'grow_workspaces';
+  info: {
+    singularName: 'grow-workspace';
+    pluralName: 'grow-workspaces';
+    displayName: 'Grow Workspace';
+    description: 'Per-Page Cadence workspace (brand, plan, creatives) and account state.';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    wkey: Schema.Attribute.String & Schema.Attribute.Unique;
+    pageId: Schema.Attribute.String;
+    data: Schema.Attribute.JSON;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::grow-workspace.grow-workspace'
     > &
       Schema.Attribute.Private;
   };
@@ -781,6 +1088,208 @@ export interface ApiPartPart extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::part.part'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPaymentOrderPaymentOrder
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'payment_orders';
+  info: {
+    singularName: 'payment-order';
+    pluralName: 'payment-orders';
+    displayName: 'Payment Order';
+    description: 'Hyp (MAX) payment records';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    orderId: Schema.Attribute.String;
+    planId: Schema.Attribute.String;
+    amount: Schema.Attribute.Decimal;
+    currency: Schema.Attribute.String;
+    billing: Schema.Attribute.String;
+    hypId: Schema.Attribute.String;
+    status: Schema.Attribute.String;
+    raw: Schema.Attribute.JSON;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment-order.payment-order'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPerformanceSnapshotPerformanceSnapshot
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'performance_snapshots';
+  info: {
+    singularName: 'performance-snapshot';
+    pluralName: 'performance-snapshots';
+    displayName: 'Performance Snapshot';
+    description: 'Per-Page weekly performance metrics and learnings for the Cadence engine.';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    wkey: Schema.Attribute.String;
+    pageId: Schema.Attribute.String;
+    week: Schema.Attribute.String;
+    spend: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    roas: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    impressions: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    ctr: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    approvedCount: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedCount: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    learnings: Schema.Attribute.JSON;
+    fatigueSignals: Schema.Attribute.JSON;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::performance-snapshot.performance-snapshot'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPlanItemPlanItem extends Struct.CollectionTypeSchema {
+  collectionName: 'plan_items';
+  info: {
+    singularName: 'plan-item';
+    pluralName: 'plan-items';
+    displayName: 'Plan Item';
+    description: 'A single item within a Content Plan (title, persona, format, hypothesis, offer).';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    title: Schema.Attribute.String;
+    persona: Schema.Attribute.String;
+    format: Schema.Attribute.String;
+    hypothesis: Schema.Attribute.Text;
+    offer: Schema.Attribute.String;
+    content_plan: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::content-plan.content-plan'
+    >;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::plan-item.plan-item'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPlanOccurrencePlanOccurrence
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'plan_occurrences';
+  info: {
+    singularName: 'plan-occurrence';
+    pluralName: 'plan-occurrences';
+    displayName: 'Plan Occurrence';
+    description: 'Durable per-post queue for the auto-pilot cron runner';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    scheduledAt: Schema.Attribute.DateTime;
+    slotIndex: Schema.Attribute.Integer;
+    status: Schema.Attribute.Enumeration<
+      ['pending', 'processing', 'posted', 'failed', 'skipped']
+    > &
+      Schema.Attribute.DefaultTo<'pending'>;
+    attempts: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    result: Schema.Attribute.JSON;
+    autopilot_plan: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::autopilot-plan.autopilot-plan'
+    >;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::plan-occurrence.plan-occurrence'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPostSettingPostSetting extends Struct.CollectionTypeSchema {
+  collectionName: 'post_settings';
+  info: {
+    singularName: 'post-setting';
+    pluralName: 'post-settings';
+    displayName: 'Post Setting';
+    description: 'Per-user default tags and posting agents';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    defaultTags: Schema.Attribute.String;
+    igAgent: Schema.Attribute.Text;
+    fbAgent: Schema.Attribute.Text;
+    users_permissions_user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::post-setting.post-setting'
+    > &
       Schema.Attribute.Private;
   };
 }
@@ -881,6 +1390,140 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPublishedPostPublishedPost
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'published_posts';
+  info: {
+    singularName: 'published-post';
+    pluralName: 'published-posts';
+    displayName: 'Published Post';
+    description: 'Log of posts published to Facebook or Instagram';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    provider: Schema.Attribute.Enumeration<['facebook', 'instagram']>;
+    targetId: Schema.Attribute.String;
+    externalPostId: Schema.Attribute.String;
+    caption: Schema.Attribute.Text;
+    imageUrl: Schema.Attribute.String;
+    scheduledAt: Schema.Attribute.DateTime;
+    status: Schema.Attribute.Enumeration<['published', 'scheduled', 'failed']>;
+    draftId: Schema.Attribute.String;
+    plan_occurrence: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::plan-occurrence.plan-occurrence'
+    >;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    raw: Schema.Attribute.JSON;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::published-post.published-post'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRunwayWorkflowRunwayWorkflow
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'runway_workflows';
+  info: {
+    singularName: 'runway-workflow';
+    pluralName: 'runway-workflows';
+    displayName: 'Runway Workflow';
+    description: "A customer's purchased Runway Workflow, saved per Page (id, version, key, node template).";
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    wfId: Schema.Attribute.String;
+    pageId: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+    workflowId: Schema.Attribute.String;
+    version: Schema.Attribute.String & Schema.Attribute.DefaultTo<'2024-11-06'>;
+    apiKey: Schema.Attribute.String & Schema.Attribute.Private;
+    baseUrl: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'api.dev.runwayml.com'>;
+    nodeOutputs: Schema.Attribute.JSON;
+    imageNode: Schema.Attribute.String;
+    promptNode: Schema.Attribute.String;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::runway-workflow.runway-workflow'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiScrapePlanScrapePlan extends Struct.CollectionTypeSchema {
+  collectionName: 'scrape_plans';
+  info: {
+    singularName: 'scrape-plan';
+    pluralName: 'scrape-plans';
+    displayName: 'Scrape Plan';
+    description: 'Daily scrape-to-post automation plans (source URLs, post hours, channels).';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    tenantId: Schema.Attribute.String;
+    pageId: Schema.Attribute.String;
+    urls: Schema.Attribute.JSON;
+    channels: Schema.Attribute.JSON;
+    hours: Schema.Attribute.JSON;
+    postsPerDay: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<3>;
+    autoPublish: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    brief: Schema.Attribute.Text;
+    channel: Schema.Attribute.String;
+    language: Schema.Attribute.String;
+    active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    lastRun: Schema.Attribute.DateTime;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::scrape-plan.scrape-plan'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiServiceService extends Struct.CollectionTypeSchema {
   collectionName: 'services';
   info: {
@@ -925,6 +1568,49 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiSocialConnectionSocialConnection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'social_connections';
+  info: {
+    singularName: 'social-connection';
+    pluralName: 'social-connections';
+    displayName: 'Social Connection';
+    description: 'Facebook/Meta OAuth credentials for connected accounts';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    provider: Schema.Attribute.Enumeration<['facebook', 'instagram']> &
+      Schema.Attribute.DefaultTo<'facebook'>;
+    metaUserId: Schema.Attribute.String;
+    metaName: Schema.Attribute.String;
+    metaEmail: Schema.Attribute.Email;
+    userToken: Schema.Attribute.Text;
+    tokenExpiresAt: Schema.Attribute.DateTime;
+    pages: Schema.Attribute.JSON;
+    igUserId: Schema.Attribute.String;
+    igUserToken: Schema.Attribute.Text;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::social-connection.social-connection'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiStoreStore extends Struct.CollectionTypeSchema {
   collectionName: 'stores';
   info: {
@@ -940,7 +1626,7 @@ export interface ApiStoreStore extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String;
     phone: Schema.Attribute.String;
     address: Schema.Attribute.String;
-    details: Schema.Attribute.RichText;
+    details: Schema.Attribute.JSON;
     hostname: Schema.Attribute.String;
     visits: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     clicks: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
@@ -971,33 +1657,29 @@ export interface ApiStoreStore extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiUserUser extends Struct.CollectionTypeSchema {
-  collectionName: 'users';
+export interface ApiStylePresetStylePreset extends Struct.CollectionTypeSchema {
+  collectionName: 'style_presets';
   info: {
-    singularName: 'user';
-    pluralName: 'users';
-    displayName: 'User';
-    description: 'A collection for user';
+    singularName: 'style-preset';
+    pluralName: 'style-presets';
+    displayName: 'Style Preset';
+    description: 'Named, reusable image-generation style presets per user.';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
-    username: Schema.Attribute.String;
-    email: Schema.Attribute.Email;
-    provider: Schema.Attribute.String;
-    password: Schema.Attribute.Password;
-    resetPasswordToken: Schema.Attribute.String;
-    confirmationToken: Schema.Attribute.String;
-    confirmed: Schema.Attribute.Boolean;
-    blocked: Schema.Attribute.Boolean;
-    role: Schema.Attribute.Relation<
+    presetId: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+    style: Schema.Attribute.Text;
+    logoUrl: Schema.Attribute.String;
+    useBrandColors: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    addLogo: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    users_permissions_user: Schema.Attribute.Relation<
       'manyToOne',
-      'plugin::users-permissions.role'
+      'plugin::users-permissions.user'
     >;
-    interests: Schema.Attribute.String;
-    last_online: Schema.Attribute.DateTime;
-    balance: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -1006,7 +1688,10 @@ export interface ApiUserUser extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::user.user'> &
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::style-preset.style-preset'
+    > &
       Schema.Attribute.Private;
   };
 }
@@ -1394,17 +2079,33 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::about.about': ApiAboutAbout;
+      'api::account-setting.account-setting': ApiAccountSettingAccountSetting;
+      'api::ad-campaign.ad-campaign': ApiAdCampaignAdCampaign;
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
+      'api::autopilot-plan.autopilot-plan': ApiAutopilotPlanAutopilotPlan;
+      'api::brand-profile.brand-profile': ApiBrandProfileBrandProfile;
       'api::category.category': ApiCategoryCategory;
+      'api::content-plan.content-plan': ApiContentPlanContentPlan;
       'api::coupon.coupon': ApiCouponCoupon;
+      'api::creative.creative': ApiCreativeCreative;
       'api::global.global': ApiGlobalGlobal;
+      'api::grow-workspace.grow-workspace': ApiGrowWorkspaceGrowWorkspace;
       'api::orderdetails.orderdetails': ApiOrderdetailsOrderdetails;
       'api::part.part': ApiPartPart;
+      'api::payment-order.payment-order': ApiPaymentOrderPaymentOrder;
+      'api::performance-snapshot.performance-snapshot': ApiPerformanceSnapshotPerformanceSnapshot;
+      'api::plan-item.plan-item': ApiPlanItemPlanItem;
+      'api::plan-occurrence.plan-occurrence': ApiPlanOccurrencePlanOccurrence;
+      'api::post-setting.post-setting': ApiPostSettingPostSetting;
       'api::product.product': ApiProductProduct;
+      'api::published-post.published-post': ApiPublishedPostPublishedPost;
+      'api::runway-workflow.runway-workflow': ApiRunwayWorkflowRunwayWorkflow;
+      'api::scrape-plan.scrape-plan': ApiScrapePlanScrapePlan;
       'api::service.service': ApiServiceService;
+      'api::social-connection.social-connection': ApiSocialConnectionSocialConnection;
       'api::store.store': ApiStoreStore;
-      'api::user.user': ApiUserUser;
+      'api::style-preset.style-preset': ApiStylePresetStylePreset;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

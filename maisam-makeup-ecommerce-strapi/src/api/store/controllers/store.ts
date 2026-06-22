@@ -1,8 +1,9 @@
-
 /**
  * store controller
  */
 
-import { factories } from '@strapi/strapi';
+import { createOwnerScopedController } from '../../../utils/owner-scope-controller';
 
-export default factories.createCoreController('api::store.store');
+export default createOwnerScopedController('api::store.store', 'publisher', {
+  readOnly: false,
+});
