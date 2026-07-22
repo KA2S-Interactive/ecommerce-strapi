@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ad_campaigns",
+  "info": {
+    "singularName": "ad-campaign",
+    "pluralName": "ad-campaigns",
+    "displayName": "Ad Campaign",
+    "description": "Log of paid promotions created for published posts"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "adAccountId": {
+      "type": "string"
+    },
+    "campaignId": {
+      "type": "string"
+    },
+    "adsetId": {
+      "type": "string"
+    },
+    "adId": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "string"
+    },
+    "optimizationGoal": {
+      "type": "string"
+    },
+    "dailyBudget": {
+      "type": "decimal"
+    },
+    "durationDays": {
+      "type": "integer"
+    },
+    "audience": {
+      "type": "json"
+    },
+    "age": {
+      "type": "json"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["creating", "active", "failed"],
+      "default": "creating"
+    },
+    "published_post": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::published-post.published-post"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "raw": {
+      "type": "json"
+    }
+  }
+}

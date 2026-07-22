@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "brand_profiles",
+  "info": {
+    "singularName": "brand-profile",
+    "pluralName": "brand-profiles",
+    "displayName": "Brand Profile",
+    "description": "Per-Page brand identity used to engineer on-brand Runway/image prompts."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "wkey": { "type": "string", "unique": true },
+    "pageId": { "type": "string" },
+    "pageName": { "type": "string" },
+    "concept": { "type": "text" },
+    "summary": { "type": "text" },
+    "voice": { "type": "string" },
+    "logoUrl": { "type": "string" },
+    "colors": { "type": "string" },
+    "colorSpace": { "type": "string", "default": "sRGB" },
+    "imageStyle": { "type": "string" },
+    "useBrandColors": { "type": "boolean", "default": false },
+    "addLogo": { "type": "boolean", "default": false },
+    "language": { "type": "string", "default": "English" },
+    "owner": { "type": "string" }
+  }
+}

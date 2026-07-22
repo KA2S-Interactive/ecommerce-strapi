@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "style_presets",
+  "info": {
+    "singularName": "style-preset",
+    "pluralName": "style-presets",
+    "displayName": "Style Preset",
+    "description": "Named, reusable image-generation style presets per user."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "presetId": { "type": "string" },
+    "name": { "type": "string" },
+    "style": { "type": "text" },
+    "logoUrl": { "type": "string" },
+    "useBrandColors": { "type": "boolean", "default": false },
+    "addLogo": { "type": "boolean", "default": false },
+    "owner": { "type": "string" }
+  }
+}

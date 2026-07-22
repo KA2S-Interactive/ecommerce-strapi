@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "account_settings",
+  "info": {
+    "singularName": "account-setting",
+    "pluralName": "account-settings",
+    "displayName": "Account Setting",
+    "description": "Per-user account-level automation preferences (ad account, WhatsApp, language, credits)."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "ukey": { "type": "string", "unique": true },
+    "adAccountId": { "type": "string" },
+    "phoneNumberId": { "type": "string" },
+    "whatsappToken": { "type": "string", "private": true },
+    "language": { "type": "string", "default": "English" },
+    "credits": { "type": "integer", "default": 0 },
+    "owner": { "type": "string" }
+  }
+}

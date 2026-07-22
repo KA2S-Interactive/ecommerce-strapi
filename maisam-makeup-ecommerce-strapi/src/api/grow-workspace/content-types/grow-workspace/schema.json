@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "grow_workspaces",
+  "info": {
+    "singularName": "grow-workspace",
+    "pluralName": "grow-workspaces",
+    "displayName": "Grow Workspace",
+    "description": "Per-Page Cadence workspace (brand, plan, creatives) and account state."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "wkey": { "type": "string", "unique": true },
+    "pageId": { "type": "string" },
+    "data": { "type": "json" },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

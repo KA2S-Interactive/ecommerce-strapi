@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "scrape_plans",
+  "info": {
+    "singularName": "scrape-plan",
+    "pluralName": "scrape-plans",
+    "displayName": "Scrape Plan",
+    "description": "Daily scrape-to-post automation plans (source URLs, post hours, channels)."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "tenantId": { "type": "string" },
+    "pageId": { "type": "string" },
+    "urls": { "type": "json" },
+    "channels": { "type": "json" },
+    "hours": { "type": "json" },
+    "postsPerDay": { "type": "integer", "default": 3 },
+    "autoPublish": { "type": "boolean", "default": true },
+    "brief": { "type": "text" },
+    "channel": { "type": "string" },
+    "language": { "type": "string" },
+    "active": { "type": "boolean", "default": true },
+    "lastRun": { "type": "datetime" },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

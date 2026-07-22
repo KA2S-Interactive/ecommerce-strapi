@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "performance_snapshots",
+  "info": {
+    "singularName": "performance-snapshot",
+    "pluralName": "performance-snapshots",
+    "displayName": "Performance Snapshot",
+    "description": "Weekly Cadence performance metrics + learnings per Page."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "wkey": { "type": "string", "unique": true },
+    "pageId": { "type": "string" },
+    "week": { "type": "string" },
+    "spend": { "type": "decimal" },
+    "roas": { "type": "decimal" },
+    "impressions": { "type": "decimal" },
+    "ctr": { "type": "decimal" },
+    "approvedCount": { "type": "integer", "default": 0 },
+    "publishedCount": { "type": "integer", "default": 0 },
+    "learnings": { "type": "json" },
+    "fatigueSignals": { "type": "json" },
+    "owner": { "type": "string" }
+  }
+}

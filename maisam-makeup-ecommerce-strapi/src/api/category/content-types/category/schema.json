@@ -1,31 +1,30 @@
 {
   "kind": "collectionType",
-  "collectionName": "categories",
+  "collectionName": "categorys",
   "info": {
     "singularName": "category",
-    "pluralName": "categories",
+    "pluralName": "categorys",
     "displayName": "Category",
-    "description": "Organize your content into categories"
+    "description": "A collection for category"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
     "name": {
       "type": "string"
     },
     "slug": {
-      "type": "uid"
-    },
-    "articles": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::article.article",
-      "mappedBy": "category"
+      "type": "uid",
+      "targetField": "name"
     },
     "description": {
       "type": "text"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article"
     }
   }
 }

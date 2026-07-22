@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "content_plans",
+  "info": {
+    "singularName": "content-plan",
+    "pluralName": "content-plans",
+    "displayName": "Content Plan",
+    "description": "Cadence weekly plan (summary + winning patterns); has many plan items."
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "wkey": { "type": "string", "unique": true },
+    "pageId": { "type": "string" },
+    "week": { "type": "string" },
+    "summary": { "type": "text" },
+    "winningPatterns": { "type": "json" },
+    "plan_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::plan-item.plan-item",
+      "mappedBy": "content_plan"
+    },
+    "owner": { "type": "string" }
+  }
+}
